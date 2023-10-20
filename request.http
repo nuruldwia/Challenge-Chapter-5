@@ -1,0 +1,110 @@
+### Create Data Users (POST)
+POST http://localhost:3001/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "dian",
+  "email": "dian@gmail.com",
+  "password": "123dian",
+  "profile": {
+    "identityType": "KTA",
+    "identityNumber": "2044521",
+    "address": "Semarang, Jawa Tengah"
+  }
+}
+
+### Register
+POST http://localhost:3001/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "name": "dinda",
+  "email": "dina@gmail.com",
+  "password": "dina727",
+  "password_confirmation": "dina727",
+  "profile": {
+    "identityType": "SIM",
+    "identityNumber": "12258745",
+    "address": "Bandung, Jawa Barat"
+  }
+}
+
+### Login
+POST http://localhost:3001/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "Alaalaala@gmail.com",
+  "password": "ziz27"
+}
+
+### Auth
+GET http://localhost:3001/api/v1/auth/authenticate
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
+
+### Get All Users
+GET http://localhost:3001/api/v1/users
+
+### Get All Users with Pagination
+GET http://localhost:3001/api/v1/users?limit=1&page=2
+
+### Get User Details by Id
+GET http://localhost:3001/api/v1/users/5
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
+
+### Update User
+PUT http://localhost:3001/api/v1/users/3
+Content-Type: application/json
+
+{
+  "name": "Rifqi Update",
+  "email": "rifqiupdate@gmail.com",
+  "password": "123rifqiupdate",
+  "profile": {
+    "identityType": "SIM",
+    "identityNumber": "48759213002",
+    "address": "Semarang, Jawa Tengah"
+  }
+}
+
+
+### Create New Bank Account
+POST http://localhost:3001/api/v1/accounts
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
+
+{
+    "bankName" : "BNI",
+    "bankAccountNumber" : "56823001",
+    "balance" : 5000000,
+    "userId" : 5
+}
+
+### Get All Bank Accounts
+GET http://localhost:3001/api/v1/accounts
+
+### Get All Bank Accounts with Pagination
+GET http://localhost:3001/api/v1/accounts?limit=1&page=2
+
+### Get Bank Account Details by Id
+GET http://localhost:3001/api/v1/accounts/1
+
+
+### Create Transaction
+POST http://localhost:3001/api/v1/transactions
+Content-Type: application/json
+
+{
+    "amount" : 100000,
+    "sourceAccountId" : 1,
+    "destinationAccountId" : 2
+}
+
+### Get All Transactions
+GET http://localhost:3001/api/v1/transactions
+
+### Get All Transactions with Pagination
+GET http://localhost:3001/api/v1/transactions?limit=1&page=2
+
+### Get Transaction Details by Id
+GET http://localhost:3001/api/v1/transactions/1
