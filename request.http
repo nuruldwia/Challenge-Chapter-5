@@ -35,12 +35,12 @@ Content-Type: application/json
 
 {
   "email": "Alaalaala@gmail.com",
-  "password": "ziz27"
+  "password": "ziz247"
 }
 
 ### Auth
 GET http://localhost:3001/api/v1/auth/authenticate
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
 
 ### Get All Users
 GET http://localhost:3001/api/v1/users
@@ -49,20 +49,21 @@ GET http://localhost:3001/api/v1/users
 GET http://localhost:3001/api/v1/users?limit=1&page=2
 
 ### Get User Details by Id
-GET http://localhost:3001/api/v1/users/5
+GET http://localhost:3001/api/v1/users/20
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
 
 ### Update User
 PUT http://localhost:3001/api/v1/users/3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
 Content-Type: application/json
 
 {
-  "name": "Rifqi Update",
-  "email": "rifqiupdate@gmail.com",
-  "password": "123rifqiupdate",
+  "name": "name Update",
+  "email": "nameupdate@gmail.com",
+  "password": "123nameupdate",
   "profile": {
-    "identityType": "SIM",
-    "identityNumber": "48759213002",
+    "identityType": "NO HP",
+    "identityNumber": "08570222248",
     "address": "Semarang, Jawa Tengah"
   }
 }
