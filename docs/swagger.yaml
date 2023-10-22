@@ -1,0 +1,772 @@
+openapi: 3.0.3
+info:
+  title: Challenge Chapter 5 Binar Academy
+  description: |-
+    this contains a Challenge document
+  contact:
+    email: nuruldwia@students.unnes.ac.id
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api/v1
+tags:
+  - name: User
+    description: all about users and authentications/authorizations
+  - name: Account
+    description: all about Accounts
+  - name: Transaction
+    description: all about Transactions
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      operationId: create-new-user
+      summary: Create a new user
+      requestBody:
+        $ref: '#/components/requestBodies/createUser'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/UserModel'
+                          - type: object
+                            properties:
+                              profile:
+                                $ref: '#/components/schemas/ProfileModel'
+    get:
+      tags:
+        - User
+      operationId: get-fetch-all-user
+      summary: Get all users
+      description: Retrieves  list of all registered users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number for pagination.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+          description: Number of items per page.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/UserModel'
+                                - type: object
+                                  properties:
+                                    profile:
+                                      $ref: '#/components/schemas/ProfileModel'
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  '/users/{userId}':
+    get:
+      tags:
+        - User
+      operationId: get-fetch-user-detail
+      summary: Get user details
+      description: Retrieves details of a specific user.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the user to retrieve.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/UserModel'
+                                - type: object
+                                  properties:
+                                    profile:
+                                      $ref: '#/components/schemas/ProfileModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Not Found'
+                  data:
+                    example: null
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+    put:
+      tags:
+        - User
+      operationId: put-update-user
+      summary: Update user details
+      description: Updates details of a specific user.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the user to update.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createUser'
+      responses:
+        '200':
+          description: Succesful user update
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/UserModel'
+                                - type: object
+                                  properties:
+                                    profile:
+                                      $ref: '#/components/schemas/ProfileModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Not Found'
+                  data:
+                    example: null
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  /accounts:
+    post:
+      tags:
+        - Account
+      operationId: create-new-account
+      summary: Create a new account
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/createAccount'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/AccountModel'
+        '400':
+          description: Failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'                  
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+    get:
+      tags:
+        - Account
+      operationId: get-fetch-all-account
+      summary: Get all accounts
+      description: Retrieves  list of all accounts
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number for pagination.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+          description: Number of items per page.
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/AccountModel'
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  '/accounts/{accountId}':
+    get:
+      tags:
+        - Account
+      operationId: get-fetch-account-detail
+      summary: Get account details
+      description: Retrieves details of a specific account.
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the user to retrieve.
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/AccountModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Not Found'
+                  data:
+                    example: null
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  /transactions:
+    post:
+      tags:
+        - Transaction
+      operationId: create-new-transaction
+      summary: Create a new transaction
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/createTransaction'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/TransactionModel'
+        '400':
+          description: Failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'                  
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+    get:
+      tags:
+        - Transaction
+      operationId: get-fetch-all-transactions
+      summary: Get all transactions
+      description: Retrieves  list of all transactions
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number for pagination.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+          description: Number of items per page.
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/TransactionModel'
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  '/transactions/{transactionId}':
+    get:
+      tags:
+        - Transaction
+      operationId: get-fetch-transaction-detail
+      summary: Get transaction details
+      description: Retrieves details of a specific transaction.
+      parameters:
+        - in: path
+          name: accountId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the user to retrieve.
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/TransactionModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Not Found'
+                  data:
+                    example: null
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      operationId: register
+      summary: Register a new user
+      requestBody:
+        $ref: '#/components/requestBodies/createUser'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/UserModel'
+                          - type: object
+                            properties:
+                              profile:
+                                $ref: '#/components/schemas/ProfileModel'
+        '400':
+          description: Failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      operationId: login
+      summary: login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'nadia22@gmail.com'
+                password:
+                  type: string
+                  example: 'Nadia123'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                            example: 'hguEFwjn6BtJGAPdwjn.baaahFgwmHASvwoanhRvw9'
+        '400':
+          description: Failed operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /auth/authenticate:
+    get:
+      tags:
+        - Auth
+      operationId: authentication
+      summary: Authenticate a User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BasicResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: 'Dinda'
+                              email:
+                                type: string
+                                example: 'dindad@gmail.com'
+                              password:
+                                type: string
+                                example: '$2b$10$lrW9Zrfrp9VkQt8PAJ'
+        '401':
+          description: UnauthorizedResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    BasicResponse:
+      title: BasicResponse
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: 'success'
+    BadRequestResponse:
+      title: BadRequestResponse
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: 'Bad Request'
+    UnauthorizedResponse:
+      title: UnauthorizedResponse
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: 'Unauthorized'
+        data:
+          example: 'null'
+    Pagination:
+      title: Pagination
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            next:
+              type: string
+              example: "https://domain.com/users?page=3&limit=10"
+            prev:
+              type: string
+              example: "https://domain.com/users?page=1&limit=10"
+        total_items:
+          type: integer
+          example: 100
+    UserModel:
+      title: UserModel
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'Nadia'
+        email:
+          type: string
+          example: 'nadia22@gmail.com'
+    ProfileModel:
+      title: ProfileModel
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        identityType:
+          type: string
+          example: 'No HP'
+        identityNumber:
+          type: string
+          example: '08572153486'
+        address:
+          type: string
+          example: 'Semarang'
+    AccountModel:
+      title: AccountModel
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        bankName:
+          type: string
+          example: 'BRI'
+        bankAccountNumber:
+          type: string
+          example: '332587150'
+        balance:
+          type: integer
+          example: 200000
+        userId:
+          type: integer
+          example: 1
+    TransactionModel:
+      title: TransactionModel
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        amount:
+          type: integer
+          example: 100000
+        sourceAccountId:
+          type: integer
+          example: 1
+        destinationAccount:
+          type: integer
+          example: 2
+  requestBodies:
+    createUser:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'Nadia'
+              email:
+                type: string
+                example: 'nadia22@gmail.com'
+              password:
+                type: string
+                example: 'password123'
+              identityType:
+                type: string
+                example: 'KTP'
+              identityNumber:
+                type: string
+                example: '33025114'
+              address:
+                type: string
+                example: 'Semarang'
+    createAccount:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              bankName:
+                type: string
+                example: 'BRI'
+              bankAccountNumber:
+                type: string
+                example: '332587150'
+              balance:
+                type: integer
+                example: 200000
+              userId:
+                type: integer
+                example: 1
+    createTransaction:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              amount:
+                type: integer
+                example: 100000
+              sourceAccountId:
+                type: integer
+                example: 1
+              destinationAccount:
+                type: integer
+                example: 2
