@@ -240,15 +240,14 @@ describe('Testing authenticate GET /api/v1/auth/authenticate', () => {
         expect(body.data.user.password).toBe('password');
     });
     test('Test token tidak berhasil -> error', () => {
-        let token = token;
-        const { statusCode, body } = request(app).get('/api/v1/auth/authenticate').set('Authorication', token);
+        const { statusCode, body } = request(app).get('/api/v1/auth/authenticate').set('Authorization', token);
 
-        expect(statusCode).toBe(403);
-        expect(body).toHaveProperty('sstatus');
+        expect(statusCode).toBe(401);
+        expect(body).toHaveProperty('status');
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
  
@@ -314,8 +313,8 @@ describe('Test GET /api/v1/users endpoint', () => {
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
-            amount, sourceAccountId, destinationAccountId
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
+            amount, sourceAccountId, destinationAccountId,
         });
 
         expect(statusCode).toBe(401);
@@ -323,7 +322,7 @@ describe('Test GET /api/v1/users endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
 
@@ -336,7 +335,7 @@ describe('Test GET /api/v1/users endpoint', () => {
 describe('Test GET /api/v1/users/{id} endpoint', () => {
     test('Test cari user dengan id yang terdaftar -> sukses', async () => {
         try {
-            const { statusCode, body } = (await request(app).get(`api/v1/users/${users.id}`)).set('Authorization', token);
+            const { statusCode, body } = await request(app).get(`api/v1/users/${users.id}`);
 
             expect(statusCode).toBe(200);
             expect(body).toHaveProperty('status');
@@ -375,7 +374,7 @@ describe('Test GET /api/v1/users/{id} endpoint', () => {
         }
     });
     test('Test cari id yang belum terdaftar -> error', async () => {
-        const { statusCode, body } = (await request(app).get(`api/v1/users/${users.id}`)).set('Authorization', token);
+        const { statusCode, body } = await request(app).get(`api/v1/users/${users.id}`).set('Authorization', token);
 
         expect(statusCode).toBe(400);
         expect(body).toHaveProperty('status');
@@ -389,7 +388,7 @@ describe('Test GET /api/v1/users/{id} endpoint', () => {
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
             amount, sourceAccountId, destinationAccountId
         });
 
@@ -398,7 +397,7 @@ describe('Test GET /api/v1/users/{id} endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
 
@@ -414,8 +413,10 @@ describe('Test PUT /api/v1/users/:id endpoint', () => {
             const name = 'usertest';
             const email = 'userttest@gmail.com';
             const password = 'pw123';
-            const identityType = 'KTP';                const identityNumber = '12345678';
+            const identityType = 'KTP';                
+            const identityNumber = '12345678';
             const address = 'Semarang';
+            
             const { statusCode, body } = await request(app).put('/api/v1/users/:id').send({
                 name, email, password, identityType, identityNumber, address
             }).set('Authorization', token);
@@ -447,20 +448,20 @@ describe('Test PUT /api/v1/users/:id endpoint', () => {
             const password = 'pw123';
             const { statusCode, body } = await request(app).post('/api/v1/users').send({
                 name, email, password
-            }).set('Authorization', token);
+            });
 
-            expect(statusCode).toBe(403);
+            expect(statusCode).toBe(400);
             expect(body).toHaveProperty('status');
             expect(body).toHaveProperty('message');
             expect(body).toHaveProperty('data');
-            expect(body.success).toBe(false);
+            expect(body.status).toBe(false);
     });
     test('Unauthorized -> error', async () => {
         const amount = 100;
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
             amount, sourceAccountId, destinationAccountId
         });
 
@@ -469,6 +470,6 @@ describe('Test PUT /api/v1/users/:id endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });

@@ -19,9 +19,9 @@ Content-Type: application/json
 
 {
   "name": "dinda",
-  "email": "dina@gmail.com",
-  "password": "dina727",
-  "password_confirmation": "dina727",
+  "email": "dinasti@gmail.com",
+  "password": "dinasti727",
+  "password_confirmation": "dinasti727",
   "profile": {
     "identityType": "SIM",
     "identityNumber": "12258745",
@@ -34,13 +34,13 @@ POST http://localhost:3001/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "Alaalaala@gmail.com",
-  "password": "ziz247"
+  "email": "dinasti@gmail.com",
+  "password": "dinasti727"
 }
 
 ### Auth
 GET http://localhost:3001/api/v1/auth/authenticate
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ.eyJpZCI6NSwiaWF0IjoxNjk3NzgzNzU0fQ.z0KJY3lGGkIYAV6Rv3bRA-_xYYs8GnJcMr0l68aAEek
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsImlhdCI6MTY5Nzk0MTQ4Nn0.9e3xj-ipqNZ0VB0UmIvtM8eAyaRRtaxHrupTcPkXUxI
 
 ### Get All Users
 GET http://localhost:3001/api/v1/users

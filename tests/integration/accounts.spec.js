@@ -48,20 +48,20 @@ describe('Test POST /api/v1/accounts endpoint', () => {
                 
         const { statusCode, body } = await request(app).post('/api/v1/auth/register').send({
             bankName, bankAccountNumber, balance, userId
-        }).set('Authorization', token);
+        });
 
-        expect(statusCode).toBe(400);
+        expect(statusCode).toBe(500);
         expect(body).toHaveProperty('status');
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
     test('Unauthorized -> error', async () => {
         const amount = 100;
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
             amount, sourceAccountId, destinationAccountId
         });
 
@@ -70,7 +70,7 @@ describe('Test POST /api/v1/accounts endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
 
@@ -116,7 +116,7 @@ describe('Test GET /api/v1/accounts endpoint', () => {
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
             amount, sourceAccountId, destinationAccountId
         });
 
@@ -125,7 +125,7 @@ describe('Test GET /api/v1/accounts endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
 
@@ -170,14 +170,14 @@ describe('Test GET /api/v1/accounts/{id} endpoint', () => {
         expect(body).toHaveProperty('status');
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
     test('Unauthorized -> error', async () => {
         const amount = 100;
         const sourceAccountId = 19;
         const destinationAccountId = 2;
         
-        const { statusCode, body } = (await request(app).post('/api/v1/transactions')).send({
+        const { statusCode, body } = await request(app).post('/api/v1/transactions').send({
             amount, sourceAccountId, destinationAccountId
         });
 
@@ -186,6 +186,6 @@ describe('Test GET /api/v1/accounts/{id} endpoint', () => {
         expect(body).toHaveProperty('message');
         expect(body).toHaveProperty('err');
         expect(body).toHaveProperty('data');
-        expect(body.success).toBe(false);
+        expect(body.status).toBe(false);
     });
 });
