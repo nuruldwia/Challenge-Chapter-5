@@ -78,34 +78,40 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5
     "bankName" : "BNI",
     "bankAccountNumber" : "56823001",
     "balance" : 5000000,
-    "userId" : 5
+    "userId" : 20
 }
 
 ### Get All Bank Accounts
 GET http://localhost:3001/api/v1/accounts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
 
 ### Get All Bank Accounts with Pagination
 GET http://localhost:3001/api/v1/accounts?limit=1&page=2
 
 ### Get Bank Account Details by Id
 GET http://localhost:3001/api/v1/accounts/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
 
 
 ### Create Transaction
 POST http://localhost:3001/api/v1/transactions
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
 
 {
-    "amount" : 100000,
+    "amount" : 10000000,
     "sourceAccountId" : 1,
     "destinationAccountId" : 2
 }
 
 ### Get All Transactions
 GET http://localhost:3001/api/v1/transactions
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
 
 ### Get All Transactions with Pagination
 GET http://localhost:3001/api/v1/transactions?limit=1&page=2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw
 
 ### Get Transaction Details by Id
 GET http://localhost:3001/api/v1/transactions/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjk3Nzc5NzkxfQ.oR23VUkQxIkMrTX4aUPM1gheGjQl0e_WY8a1iP1NaEw

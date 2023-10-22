@@ -9,6 +9,15 @@ module.exports = {
         try {
             let { bankName, bankAccountNumber, balance, userId } = req.body;
 
+            let user = await prisma.users.findUnique({ where : { id : userId }});
+            if(!user) {
+                return res.status(400).json({
+                    status: false,
+                    message: "Bad Request!",
+                    data: `User with id ${userId} doesn\'t exist!`
+                });
+            }
+
             let newBankAccount = await prisma.bankAccounts.create({
                 data: {
                     bankName,
